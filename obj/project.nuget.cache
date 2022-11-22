@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "aC2/wPqSNswG6bShw+0HEFBkO9S/ePxlL0TLzSn4eM88Op80/1c4ydt/5Q/dk9VthJdm4Wq3kwaiEWjigGg8Rg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\natan\\School2022-2023\\Semester1\\DevOps_&_Security\\DevOps-Security-CaseStudy\\CaseStudy.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\natan\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\natan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\natan\\.nuget\\packages\\selenium.webdriver\\4.6.0\\selenium.webdriver.4.6.0.nupkg.sha512",
+    "C:\\Users\\natan\\.nuget\\packages\\servicestack.text\\6.4.0\\servicestack.text.6.4.0.nupkg.sha512",
+    "C:\\Users\\natan\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
+    "C:\\Users\\natan\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",
+    "C:\\Users\\natan\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
