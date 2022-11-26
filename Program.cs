@@ -8,12 +8,60 @@ using ServiceStack.Text;
 using CaseStudy;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Tracing;
+using System.Security.Cryptography.X509Certificates;
+using OpenQA.Selenium.DevTools.V105.Emulation;
 /*using JsonSerializer = System.Text.Json.JsonSerializer; NIET MEER NODIG OMDAT JSSERIALIZER OOK IN SERVICESTACK.TEXT ZIT*/
 
 namespace CaseStudy
 {
     class Program
     {
+        public static void PrintMenu()
+        {
+            //attempt keuzemenu :)
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine("|-----------------------|");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("|");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" Kies een Optie        ");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine($"|\n|-----------------------|");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("|");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" 1: Scrape 5 YT videos ");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write($"|\n|");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" 2: Scrape 5 ictjobs   ");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write($"|\n|-----------------------|\n|");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write(" q: Quit               ");
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine($"|\n|-----------------------|\n");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public static string GetOption()
+        {
+            string[] options = { "1", "2", "q" };
+            Console.Clear();
+            PrintMenu();
+            Console.Write("Optie: ");
+            string option = Console.ReadLine();
+
+            while (!options.Contains(option))
+            {
+                Console.Clear();
+                PrintMenu();
+                Console.Write("Foute optie, kies opnieuw: ");
+                option = Console.ReadLine();
+            }
+
+            return option;
+        }
         public static List<YoutubeVideo> YoutubeScraper()
         {
             Console.Write("enter searchterm: ");
@@ -120,20 +168,58 @@ namespace CaseStudy
 
         static void Main(string[] args)
         {
+            
             /*dit haalt de huidige dir op, zonder de bin en debugmappen. hier kan ik dan de csv en json bestanden naar zetten*/
             string currentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
-            //List<YoutubeVideo> YoutubeVideosList = YoutubeScraper();
+            void test()
+            {
+                string option = GetOption();
 
-            //dit deel is voor YoutubeVideos te exporten
-            /*string pathJSON = currentDirectory + @"\YoutubeVids.json";
+                switch (option)
+                {
+                    case "1":
+                        List<YoutubeVideo> YoutubeVideosList = YoutubeScraper();
+                        string pathJSON = currentDirectory + @"\YoutubeVids.json";
+                        string jsonString = JsonSerializer.SerializeToString(YoutubeVideosList);
+                        File.WriteAllText(pathJSON, jsonString);
+                        ExportCSV(currentDirectory, "YoutubeVids", YoutubeVideosList);
+                        test();
+                        break;
+                    case "2":
+                        List<Vacature> VacaturesList = VacatureScraper();
+
+                        string pathJsonVacature = currentDirectory + @"\Vacatures.json";
+                        string jsonStringVacature = JsonSerializer.SerializeToString(VacaturesList);
+                        File.WriteAllText(pathJsonVacature, jsonStringVacature);
+
+                        string pathCsvVacature = currentDirectory + @"\Vactures.csv";
+                        string csvStringVacature = CsvSerializer.SerializeToString(VacaturesList);
+                        File.WriteAllText(pathCsvVacature, csvStringVacature);
+                        test();
+                        break;
+                    case "q":
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            test();
+
+
+
+            //hieronder deel van Youtube
+            /*List<YoutubeVideo> YoutubeVideosList = YoutubeScraper();
+          
+            string pathJSON = currentDirectory + @"\YoutubeVids.json";
             string jsonString = JsonSerializer.SerializeToString(YoutubeVideosList);
             File.WriteAllText(pathJSON, jsonString);
-
             ExportCSV(currentDirectory, "YoutubeVids", YoutubeVideosList);*/
 
 
-            List<Vacature> VacaturesList = VacatureScraper();
+            //hieronder deel van ictjobs
+            /*List<Vacature> VacaturesList = VacatureScraper();
 
             string pathJsonVacature = currentDirectory + @"\Vacatures.json";
             string jsonStringVacature = JsonSerializer.SerializeToString(VacaturesList);
@@ -141,7 +227,7 @@ namespace CaseStudy
 
             string pathCsvVacature = currentDirectory + @"\Vactures.csv";
             string csvStringVacature = CsvSerializer.SerializeToString(VacaturesList);
-            File.WriteAllText(pathCsvVacature, csvStringVacature);
+            File.WriteAllText(pathCsvVacature, csvStringVacature);*/
 
         }
     }
