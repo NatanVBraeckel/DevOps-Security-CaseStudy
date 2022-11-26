@@ -5,14 +5,16 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Reflection.Metadata;
 using ServiceStack.Text;
+using CaseStudy;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Tracing;
 /*using JsonSerializer = System.Text.Json.JsonSerializer; NIET MEER NODIG OMDAT JSSERIALIZER OOK IN SERVICESTACK.TEXT ZIT*/
 
-namespace WebScraperYoutube
+namespace CaseStudy
 {
     class Program
     {
-
-        static void Main(string[] args)
+        public static List<YoutubeVideo> YoutubeScraper()
         {
             Console.Write("enter searchterm: ");
             string searchterm = Console.ReadLine();
@@ -25,11 +27,10 @@ namespace WebScraperYoutube
             WebElement accept_terms = (WebElement)wait.Until(driver => driver.FindElement(By.XPath("//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")));
             accept_terms.Click();
 
-            List<YoutubeVideo> YoutubeVideosList = new List<YoutubeVideo>();
-
-            /*3 seconden slapen*/
+            /*3 seconden slapen, anders krijg je errors omdat pagina nog niet herladen is na accept terms*/
             Thread.Sleep(3000);
 
+            List<YoutubeVideo> YoutubeVideosList = new List<YoutubeVideo>();
             for (int i = 1; i <= 5; i++)
             {
                 var video = wait.Until(driver => driver.FindElement(By.CssSelector($"#contents > ytd-video-renderer:nth-of-type({i})")));
@@ -51,21 +52,97 @@ namespace WebScraperYoutube
 
                 /*Console.WriteLine($"link = {link}\ntitle = {title}\nchannel = {channel}\nviews = {views}\n");*/
 
-                YoutubeVideosList.Add(new YoutubeVideo(link, title, channel, views));
+                YoutubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
             }
 
+            driver.Quit();
+
+            return YoutubeVideosList;
+        }
+
+        public static List<Vacature> VacatureScraper()
+        {
+            Console.Write("Geef zoekterm in: ");
+            string searchterm = Console.ReadLine();
+
+            WebDriver driver = new ChromeDriver();
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+
+            driver.Navigate().GoToUrl("https://www.ictjob.be/");
+
+            WebElement searchbar = (WebElement)wait.Until(driver => driver.FindElement(By.Id("keywords-input")));
+            searchbar.SendKeys($"{searchterm}");
+            searchbar.Submit();
+
+            WebElement cookies = (WebElement)wait.Until(driver => driver.FindElement(By.CssSelector("#body-ictjob > div.context-message-ctn > a")));
+            cookies.Click();
+
+            WebElement sortDateButton = (WebElement)wait.Until(driver => driver.FindElement(By.Id("sort-by-date")));
+            sortDateButton.Click();
+
+            Thread.Sleep(15000);
+
+            IList<IWebElement> vacatures = wait.Until(driver => driver.FindElements(By.CssSelector($"li.search-item.clearfix")));
+            List<IWebElement> newvacatures = vacatures.ToList().GetRange(0, 5);
+
+            List<Vacature> VacaturesList = new List<Vacature>();
+
+            foreach (IWebElement vacature in newvacatures)
+            {
+                string title = vacature.FindElement(By.CssSelector("h2.job-title")).Text;
+                string bedrijf = vacature.FindElement(By.ClassName("job-company")).Text;
+                string locatie = vacature.FindElement(By.CssSelector("span[itemprop=addressLocality]")).Text;
+                string keywords;
+                try
+                {
+                    keywords = vacature.FindElement(By.ClassName("job-keywords")).Text;
+                }
+                catch (OpenQA.Selenium.NoSuchElementException)
+                {
+                    keywords = "";
+                }
+                string link = vacature.FindElement(By.CssSelector("a")).GetAttribute("href");
+
+                VacaturesList.Add(new Vacature(title, bedrijf, locatie, keywords, link));
+                //Console.WriteLine($"titel = {title}\nbedrijf = {bedrijf}\nlocatie = {locatie}\nkeywords = {keywords}\nlink = {link}\n");
+            }
+
+            driver.Quit();
+            return VacaturesList;
+        }
+
+        public static void ExportCSV(string path, string filename, List<YoutubeVideo> items)
+        {
+            string pathCSV = path + @"\" + $"{filename}.csv";
+            string csvString = CsvSerializer.SerializeToString(items);
+            File.WriteAllText(pathCSV, csvString);
+        }
+
+        static void Main(string[] args)
+        {
             /*dit haalt de huidige dir op, zonder de bin en debugmappen. hier kan ik dan de csv en json bestanden naar zetten*/
             string currentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
 
-            string pathJSON = currentDirectory + @"\YoutubeVids.json";
+            //List<YoutubeVideo> YoutubeVideosList = YoutubeScraper();
+
+            //dit deel is voor YoutubeVideos te exporten
+            /*string pathJSON = currentDirectory + @"\YoutubeVids.json";
             string jsonString = JsonSerializer.SerializeToString(YoutubeVideosList);
             File.WriteAllText(pathJSON, jsonString);
 
-            string pathCSV = currentDirectory + @"\YoutubeVids.csv";
-            string csvString = CsvSerializer.SerializeToString(YoutubeVideosList);
-            File.WriteAllText(pathCSV, csvString);
+            ExportCSV(currentDirectory, "YoutubeVids", YoutubeVideosList);*/
 
-            driver.Quit();
+
+            List<Vacature> VacaturesList = VacatureScraper();
+
+            string pathJsonVacature = currentDirectory + @"\Vacatures.json";
+            string jsonStringVacature = JsonSerializer.SerializeToString(VacaturesList);
+            File.WriteAllText(pathJsonVacature, jsonStringVacature);
+
+            string pathCsvVacature = currentDirectory + @"\Vactures.csv";
+            string csvStringVacature = CsvSerializer.SerializeToString(VacaturesList);
+            File.WriteAllText(pathCsvVacature, csvStringVacature);
+
         }
     }
 }

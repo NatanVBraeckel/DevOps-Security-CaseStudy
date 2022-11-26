@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebScraperYoutube
+namespace CaseStudy
 {
     public class YoutubeVideo
     {
 
-        public YoutubeVideo(string link, string title, string channel, string views)
+        public YoutubeVideo(string title, string channel, string views, string link)
         {
-            Link = link;
             Title = title;
             Channel = channel;
             Views = views;
+            Link = link;
         }
 
-        public string Link { get; set; }
+
         public string Title { get; set; }
         public string Channel { get; set; }
         public string Views { get; set; }
+        public string Link { get; set; }
     }
 }
 
