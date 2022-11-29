@@ -109,7 +109,7 @@ namespace CaseStudy
         {
 
             /*dit haalt de huidige dir op, zonder de bin en debugmappen. hier kan ik dan de csv en json bestanden naar zetten*/
-            string currentDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
+            string exportDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + @"\Exports\";
 
             void Program()
             {
@@ -119,20 +119,20 @@ namespace CaseStudy
                 {
                     case "0":
                         List<YoutubeVideo> YoutubeVideosList = Scraper.YoutubeScraper();
-                        Converter.ExportCSV(currentDirectory, "YoutubeVids", YoutubeVideosList);
-                        Converter.ExportJSON(currentDirectory, "YoutubeVids", YoutubeVideosList);
+                        Converter.ExportCSV(exportDirectory, "YoutubeVids", YoutubeVideosList);
+                        Converter.ExportJSON(exportDirectory, "YoutubeVids", YoutubeVideosList);
                         Program();
                         break;
                     case "1":
                         List<Vacature> VacaturesList = Scraper.VacatureScraper();
-                        Converter.ExportCSV(currentDirectory, "Vacatures", VacaturesList);
-                        Converter.ExportJSON(currentDirectory, "Vacatures", VacaturesList);
+                        Converter.ExportCSV(exportDirectory, "Vacatures", VacaturesList);
+                        Converter.ExportJSON(exportDirectory, "Vacatures", VacaturesList);
                         Program();
                         break;
                     case "2":
                         List<DailyForecast> DailyForecastList = Scraper.WeatherScraper();
-                        Converter.ExportCSV(currentDirectory, "Weather", DailyForecastList);
-                        Converter.ExportJSON(currentDirectory, "Weather", DailyForecastList);
+                        Converter.ExportCSV(exportDirectory, "Weather", DailyForecastList);
+                        Converter.ExportJSON(exportDirectory, "Weather", DailyForecastList);
                         Program();
                         break;
                     case "q":
