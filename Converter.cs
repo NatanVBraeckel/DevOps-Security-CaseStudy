@@ -9,6 +9,7 @@ namespace CaseStudy
 {
     public class Converter
     {
+        //de eerste methode was prototype, kon enkel een list van 1 soort meegeven
         public static void ExportCSV_original(string path, string filename, List<YoutubeVideo> items)
         {
             string pathCSV = path + @"\" + $"{filename}.csv";

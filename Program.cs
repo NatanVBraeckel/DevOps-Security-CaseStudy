@@ -17,93 +17,6 @@ namespace CaseStudy
 {
     class Program
     {
-        public static void PrintCustomMenu(string title, string[] main, string endline)
-        {
-            string[] allStrings = main.Concat(new string[] { title, endline }).ToArray();
-            int longestString = allStrings.Max(w => w.Length);
-
-            title = title.PadRight(longestString + 4);
-            endline = endline.PadRight(longestString + 4);
-
-            string streep = new string('-', longestString + 5);
-
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|{streep}|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($" {title}");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|\n|{streep}|\n|");
-
-            for(int i = 0; i < main.Count(); i++)
-            {
-                string line = $" {i}: {main[i]}";
-                line = line.PadRight(longestString + 4);
-
-                Console.ForegroundColor = ConsoleColor.White;
-
-                Console.Write(line);
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write($" |\n|");
-            }
-
-            Console.Write($"{streep}|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($" {endline}");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine($"|\n|{streep}|");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
-        public static void PrintMenu()
-        {
-            //attempt keuzemenu :)
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("|-----------------------|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" Kies een Optie        ");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine($"|\n|-----------------------|");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" 1: Scrape 5 YT videos ");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" 2: Scrape 5 ictjobs   ");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" 3: Scrape 10 weather  ");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|\n|-----------------------|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(" q: Quit               ");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine($"|\n|-----------------------|\n");
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
-        public static string GetOption()
-        {
-            string[] strings = { "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen" };
-            Console.Clear();
-            PrintCustomMenu("Kies een optie", strings, "q: Quit programma");
-            //PrintMenu();
-
-            string[] options = { "0", "1", "2", "q" };
-
-            Console.Write("Optie: ");
-            string option = Console.ReadLine();
-
-            while (!options.Contains(option))
-            {
-                Console.Clear();
-                PrintMenu();
-                Console.Write("Foute optie, kies opnieuw: ");
-                option = Console.ReadLine();
-            }
-
-            return option;
-        }
 
         static void Main(string[] args)
         {
@@ -113,7 +26,11 @@ namespace CaseStudy
 
             void Program()
             {
-                string option = GetOption();
+                //string option = GetOption();
+
+                List<string> strings = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen" };
+                Menu.PrintCustomMenu("Kies een optie", strings, "q: Quit programma");
+                string option = Menu.GetOptionNew(strings.Count, "q");
 
                 switch (option)
                 {
@@ -142,7 +59,11 @@ namespace CaseStudy
                 }
             }
 
-            Program();
+            Scraper.LijnScraper();
+
+            //Scraper.VacatureScraper();
+
+            //Program();
 
             //string option = GetOption();
 
@@ -172,7 +93,6 @@ namespace CaseStudy
             string pathCsvVacature = currentDirectory + @"\Vactures.csv";
             string csvStringVacature = CsvSerializer.SerializeToString(VacaturesList);
             File.WriteAllText(pathCsvVacature, csvStringVacature);*/
-
         }
     }
 }
