@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace CaseStudy
@@ -24,5 +25,10 @@ namespace CaseStudy
         public string Locatie { get; set; }
         public string Keywords { get; set; }
         public string Link { get; set; }
+
+        public override string ToString()
+        {
+            return $"Titel = {Titel}\nBedrijf = {Bedrijf}\nLocatie = {Locatie}\nKeywords = {Keywords}\nLink = {Link}";
+        }
     }
 }

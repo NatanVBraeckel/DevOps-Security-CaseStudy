@@ -23,5 +23,10 @@ namespace CaseStudy
         public string Phrase { get; set; }
         public string RainPercentage { get; set; }
         //public string Link { get; set; }
+
+        public override string ToString()
+        {
+            return $"Day = {Day}\nMonth = {Month}\nTemperature = {Temperature}\nPhrase = {Phrase}\nRainPercentage = {RainPercentage}";
+        }
     }
 }

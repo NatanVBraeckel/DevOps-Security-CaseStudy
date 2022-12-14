@@ -10,22 +10,22 @@ namespace CaseStudy
     public class Converter
     {
         //de eerste methode was prototype, kon enkel een list van 1 soort meegeven
-        public static void ExportCSV_original(string path, string filename, List<YoutubeVideo> items)
+        public static void ExportCSV_original(string path, string filename, List<YoutubeVideo> objects)
         {
             string pathCSV = path + @"\" + $"{filename}.csv";
-            string csvString = CsvSerializer.SerializeToString(items);
+            string csvString = CsvSerializer.SerializeToString(objects);
             File.WriteAllText(pathCSV, csvString);
         }
-        public static void ExportCSV<T>(string path, string filename, T items)
+        public static void ExportCSV<T>(string path, string filename, T objects)
         {
             string pathCSV = path + @"\" + $"{filename}.csv";
-            string csvString = CsvSerializer.SerializeToString(items);
+            string csvString = CsvSerializer.SerializeToString(objects);
             File.WriteAllText(pathCSV, csvString);
         }
-        public static void ExportJSON<T>(string path, string filename, T items)
+        public static void ExportJSON<T>(string path, string filename, T objects)
         {
             string pathCSV = path + @"\" + $"{filename}.json";
-            string jsonString = JsonSerializer.SerializeToString(items);
+            string jsonString = JsonSerializer.SerializeToString(objects);
             File.WriteAllText(pathCSV, jsonString);
         }
     }

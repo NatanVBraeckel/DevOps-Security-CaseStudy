@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium.DevTools.V105.Page;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -140,6 +141,43 @@ namespace CaseStudy
             { ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.DarkGreen, ConsoleColor.Green, ConsoleColor.DarkCyan, ConsoleColor.Cyan, ConsoleColor.Red, ConsoleColor.Magenta };
             int index = random.Next(colors.Count);
             return colors[index];
+        }
+        public static void ConvertMenu<T>(string path, List<T>scrapeItems)
+        {
+            List<string> convertOptions = new List<string> { "View Data", "Convert to CSV", "Convert to JSON" };
+
+            Console.Clear();
+            PrintCustomMenu("Data retrieved", convertOptions, "q: Quit", color: ConsoleColor.Cyan);
+            string option = GetOptionNew(convertOptions.Count, extra_option: "q");
+
+            switch (option)
+            {
+                case "0":
+                    foreach(object scrapeItem in scrapeItems)
+                    {
+                        Console.WriteLine($"{scrapeItem}\n");
+                    }
+                    Console.Write("Press key to continue");
+                    Console.ReadLine();
+                    ConvertMenu(path, scrapeItems);
+                    break;
+                case "1":
+                    Console.Write("Write a name for the file: ");
+                    string filenameCSV = Console.ReadLine();
+                    Converter.ExportCSV(path, filenameCSV, scrapeItems);
+                    ConvertMenu(path, scrapeItems);
+                    break;
+                case "2":
+                    Console.Write("Write a name for the file: ");
+                    string filenameJSON = Console.ReadLine();
+                    Converter.ExportCSV(path, filenameJSON, scrapeItems);
+                    ConvertMenu(path, scrapeItems);
+                    break;
+                case "q":
+                    break;
+                case "default":
+                    break;
+            }
         }
 
         //yoinked van https://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-with-maximum-performance

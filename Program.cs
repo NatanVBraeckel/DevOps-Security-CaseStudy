@@ -37,26 +37,30 @@ namespace CaseStudy
                 {
                     case "0":
                         List<YoutubeVideo> YoutubeVideosList = Scraper.YoutubeScraper2();
-                        Converter.ExportCSV(exportDirectory, "YoutubeVids", YoutubeVideosList);
-                        Converter.ExportJSON(exportDirectory, "YoutubeVids", YoutubeVideosList);
+                        //Converter.ExportCSV(exportDirectory, "YoutubeVids", YoutubeVideosList);
+                        //Converter.ExportJSON(exportDirectory, "YoutubeVids", YoutubeVideosList);
+                        Menu.ConvertMenu(exportDirectory, YoutubeVideosList);
                         Program();
                         break;
                     case "1":
                         List<Vacature> VacaturesList = Scraper.VacatureScraper();
-                        Converter.ExportCSV(exportDirectory, "Vacatures", VacaturesList);
-                        Converter.ExportJSON(exportDirectory, "Vacatures", VacaturesList);
+                        //Converter.ExportCSV(exportDirectory, "Vacatures", VacaturesList);
+                        //Converter.ExportJSON(exportDirectory, "Vacatures", VacaturesList);
+                        Menu.ConvertMenu(exportDirectory, VacaturesList);
                         Program();
                         break;
                     case "2":
                         List<DailyForecast> DailyForecastList = Scraper.WeatherScraper();
-                        Converter.ExportCSV(exportDirectory, "Weather", DailyForecastList);
-                        Converter.ExportJSON(exportDirectory, "Weather", DailyForecastList);
+                        //Converter.ExportCSV(exportDirectory, "Weather", DailyForecastList);
+                        //Converter.ExportJSON(exportDirectory, "Weather", DailyForecastList);
+                        Menu.ConvertMenu(exportDirectory, DailyForecastList);
                         Program();
                         break;
                     case "3":
                         List<BusDoorkomst> BusDoorkomstList = Scraper.LijnScraper();
-                        Converter.ExportCSV(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
-                        Converter.ExportJSON(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
+                        //Converter.ExportCSV(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
+                        //Converter.ExportJSON(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
+                        Menu.ConvertMenu(exportDirectory, BusDoorkomstList);
                         Program();
                         break;
                     case "q":

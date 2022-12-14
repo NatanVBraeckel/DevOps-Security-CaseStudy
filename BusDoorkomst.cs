@@ -26,5 +26,9 @@ namespace CaseStudy
         public string Tijdstip { get; set; }
         public string InfoLink { get; set; }
 
+        public override string ToString()
+        {
+            return $"Busnummer = {Busnummer}\nRouteNaam = {RouteNaam}\nHalteNaam = {HalteNaam}\nDatum = {Datum}\nTijdstip = {Tijdstip}\nInfolink = {InfoLink}";
+        }
     }
 }

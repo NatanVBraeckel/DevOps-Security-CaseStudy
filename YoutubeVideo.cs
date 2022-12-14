@@ -22,6 +22,11 @@ namespace CaseStudy
         public string Channel { get; set; }
         public string Views { get; set; }
         public string Link { get; set; }
+
+        public override string ToString()
+        {
+            return $"Title = {Title}\nChannel = {Channel}\nViews = {Views}\nLink = {Link}";
+        }
     }
 }
 

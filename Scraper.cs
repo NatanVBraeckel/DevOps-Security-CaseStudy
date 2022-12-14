@@ -81,7 +81,7 @@ namespace CaseStudy
             IList<IWebElement> videosLijst = driver.FindElements(By.CssSelector("#contents ytd-video-renderer:nth-of-type(-n+5)"));
             foreach(IWebElement video in videosLijst)
             {
-                Console.WriteLine(video);
+                //Console.WriteLine(video);
                 string title = video.FindElement(By.CssSelector("#video-title yt-formatted-string")).Text;
                 string channel = video.FindElement(By.CssSelector("#metadata a")).GetAttribute("innerHTML");
                 //deze gaf problemen bij de vorige
@@ -230,14 +230,16 @@ namespace CaseStudy
             IList<IWebElement> dailyWrappers = wait.Until(driver => driver.FindElements(By.ClassName("daily-wrapper")));
             foreach (IWebElement dailyWrapper in dailyWrappers)
             {
+                //je kan de hele date ophalen, maar data opsplitsen kan misschien ergens handig zijn
                 string date = dailyWrapper.FindElement(By.CssSelector(".module-header.sub.date")).Text;
                 string[] seperated_date = date.Split('-');
                 string day = seperated_date[0];
                 string month = seperated_date[1];
+
                 string temp = dailyWrapper.FindElement(By.CssSelector(".temp .high")).Text;
                 string phrase = dailyWrapper.FindElement(By.CssSelector(".phrase")).Text;
                 string rain = dailyWrapper.FindElement(By.CssSelector(".precip")).Text;
-                Console.WriteLine($"day = {day}\nmonth={month}\ntemp = {temp}\nphrase = {phrase}\nrain = {rain}");
+                //Console.WriteLine($"day = {day}\nmonth={month}\ntemp = {temp}\nphrase = {phrase}\nrain = {rain}");
                 dailyForecasts.Add(new DailyForecast(day, month, temp.Replace("°", ""), phrase, rain));
             }
 
