@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.DevTools.V105.Storage;
+using System.Net.NetworkInformation;
 
 namespace CaseStudy
 {
@@ -47,7 +48,7 @@ namespace CaseStudy
                 {
                     views = views.Substring(0, views.IndexOf(' '));
                 }
-
+                ////*[@id="metadata-line"]/span[1]
                 /*Console.WriteLine($"link = {link}\ntitle = {title}\nchannel = {channel}\nviews = {views}\n");*/
 
                 YoutubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
@@ -55,6 +56,46 @@ namespace CaseStudy
 
             driver.Quit();
 
+            return YoutubeVideosList;
+        }
+        public static List<YoutubeVideo> YoutubeScraper2()
+        {
+            Console.Write("enter searchterm: ");
+            string searchterm = Console.ReadLine();
+            //string searchterm = "cute cat videos";
+
+            WebDriver driver = new ChromeDriver();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
+            //&sp=CAI%253D wordt altijd in de url gezet als je op meest recente vids sorteerd
+            driver.Navigate().GoToUrl($"https://www.youtube.com/results?search_query={searchterm.Replace(' ', '+')}&sp=CAI%253D");
+
+            //accept terms klikken
+            driver.FindElement(By.XPath("//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")).Click();
+
+            //efkes wachten anders StaleElementException
+            Thread.Sleep(1500);
+
+            List<YoutubeVideo> YoutubeVideosList = new List<YoutubeVideo>();
+            //nu de eerste 5 vids yoinken
+            IList<IWebElement> videosLijst = driver.FindElements(By.CssSelector("#contents ytd-video-renderer:nth-of-type(-n+5)"));
+            foreach(IWebElement video in videosLijst)
+            {
+                Console.WriteLine(video);
+                string title = video.FindElement(By.CssSelector("#video-title yt-formatted-string")).Text;
+                string channel = video.FindElement(By.CssSelector("#metadata a")).GetAttribute("innerHTML");
+                //deze gaf problemen bij de vorige
+                string views = video.FindElement(By.CssSelector("#metadata-line span")).Text;
+                if (views == "Geen weergaven") { views = "0"; }
+                else { views = views.Substring(0, views.IndexOf(' ')); }
+
+                string link = video.FindElement(By.CssSelector("ytd-thumbnail a")).GetAttribute("href");
+
+                Console.WriteLine($"Title = {title}\nChannel = {channel}\nViews = {views}\nLink = {link}");
+                YoutubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
+            }
+
+            driver.Quit();
             return YoutubeVideosList;
         }
         public static List<Vacature> VacatureScraper()
@@ -140,14 +181,23 @@ namespace CaseStudy
                 catch (OpenQA.Selenium.NoSuchElementException)
                 {
                     IList<IWebElement> locations = wait.Until(driver => driver.FindElements(By.CssSelector(".locations-list a")));
-                    Console.WriteLine($"{locations.Count} options found");
-                    for (int i = 0; i < locations.Count; i++)
+                    //Console.WriteLine($"{locations.Count} options found");
+                    /*for (int i = 0; i < locations.Count; i++)
                     {
                         Console.WriteLine($"{i}: {locations[i].Text}");
+                    }*/
+                    List<string> locationsStrings = new List<string> { };
+                    foreach (IWebElement location in locations)
+                    {
+                        locationsStrings.Add(location.Text);
                     }
-                    Console.Write("Choose an option: ");
-                    int choice = int.Parse(Console.ReadLine());
-                    locations[choice].Click();
+
+                    Console.Clear();
+                    Menu.PrintCustomMenu($"{locations.Count} options found", locationsStrings, "Choose a location");
+
+                    string locationChoice = Menu.GetOptionNew(locationsStrings.Count);
+                    int intLocationChoice = int.Parse(locationChoice);
+                    locations[intLocationChoice].Click();
 
                     //soms komt er een advertentie na het klikken van de optie
                     //gewoon refreshen van de pagina voldoet niet, want je blijft gewoon op de pagina
@@ -161,7 +211,7 @@ namespace CaseStudy
                     {
                         driver.Navigate().Refresh();
                         IList<IWebElement> locations_reload = wait.Until(driver => driver.FindElements(By.CssSelector(".locations-list a")));
-                        locations_reload[choice].Click();
+                        locations_reload[intLocationChoice].Click();
                     }
                 }
             }
@@ -195,7 +245,7 @@ namespace CaseStudy
             return dailyForecasts;
         }
 
-        public static void LijnScraper()
+        public static List<BusDoorkomst> LijnScraper()
         {
             Console.Write("Geef een lijnnummer in: ");
             string lijn_nummer = Console.ReadLine();
@@ -311,7 +361,8 @@ namespace CaseStudy
             int halte_option_int = int.Parse(halte_option);
 
             IList<IWebElement> alle_haltes = driver.FindElements(By.CssSelector("ul[data-testid=\'stop-list-with-small-action\'] > li"));
-            alle_haltes[halte_option_int].FindElement(By.CssSelector("a")).Click();
+            string link_halte = alle_haltes[halte_option_int].FindElement(By.CssSelector("a")).GetAttribute("href");
+            driver.Navigate().GoToUrl(link_halte);
 
             //nu zitten we op de pagina van de halte, met de datum en tijd die we willen aanpassen.
             //klik op knop om tijd aan te passen
@@ -380,6 +431,7 @@ namespace CaseStudy
             //eerst wat meer doorkomsten opvragen
             try
             {
+                Thread.Sleep(500);
                 driver.FindElement(By.CssSelector("button[data-testid=\'load-more-recent-stops-button\']")).Click();
                 //even wachten tot ze geladen zijn
                 Thread.Sleep(1000);
@@ -407,8 +459,8 @@ namespace CaseStudy
             }
             
 
-            Console.ReadLine();
             driver.Quit();
+            return bus_doorkomsten;
         }
     }
 }

@@ -27,15 +27,16 @@ namespace CaseStudy
             void Program()
             {
                 //string option = GetOption();
-
-                List<string> strings = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen" };
-                Menu.PrintCustomMenu("Kies een optie", strings, "q: Quit programma");
-                string option = Menu.GetOptionNew(strings.Count, "q");
+                Console.Clear();
+                
+                List<string> ScrapeOpties = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen", "Scrape doorkomende bussen van een halte" };
+                Menu.PrintCustomMenu("Kies een optie", ScrapeOpties, "q: Quit programma");
+                string option = Menu.GetOptionNew(ScrapeOpties.Count, extra_option: "q");
 
                 switch (option)
                 {
                     case "0":
-                        List<YoutubeVideo> YoutubeVideosList = Scraper.YoutubeScraper();
+                        List<YoutubeVideo> YoutubeVideosList = Scraper.YoutubeScraper2();
                         Converter.ExportCSV(exportDirectory, "YoutubeVids", YoutubeVideosList);
                         Converter.ExportJSON(exportDirectory, "YoutubeVids", YoutubeVideosList);
                         Program();
@@ -52,6 +53,12 @@ namespace CaseStudy
                         Converter.ExportJSON(exportDirectory, "Weather", DailyForecastList);
                         Program();
                         break;
+                    case "3":
+                        List<BusDoorkomst> BusDoorkomstList = Scraper.LijnScraper();
+                        Converter.ExportCSV(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
+                        Converter.ExportJSON(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
+                        Program();
+                        break;
                     case "q":
                         break;
                     default:
@@ -59,11 +66,13 @@ namespace CaseStudy
                 }
             }
 
-            Scraper.LijnScraper();
+            //Scraper.LijnScraper();
 
             //Scraper.VacatureScraper();
 
-            //Program();
+            //Scraper.YoutubeScraper2();
+
+            Program();
 
             //string option = GetOption();
 

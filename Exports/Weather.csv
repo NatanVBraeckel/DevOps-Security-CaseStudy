@@ -1,13 +1,13 @@
 Day,Month,Temperature,Phrase,RainPercentage
-29,11,9,Bewolkt,25%
-30,11,7,Laaghangende bewolking en mist,25%
-1,12,6,Lage wolken,25%
-2,12,3,Bewolkt,16%
-3,12,3,Bewolkt,25%
-4,12,4,Aanhoudend bewolkt,25%
-5,12,2,Zon door hoge bewolking,3%
-6,12,3,Overwegend bewolkt,2%
-7,12,4,Bewolkt,25%
-8,12,3,Een beetje regen,56%
-9,12,1,Een beetje aanvriezende regen en aanvriezende motregen,57%
-10,12,2,Deels zonnig,25%
+14,12,-1,Overwegend bewolkt,1%
+15,12,2,Overwegend zonnig,0%
+16,12,0,Zonnig tot gedeeltelijk bewolkt,0%
+17,12,0,Overwegend zonnig,0%
+18,12,4,Een beetje sneeuw,83%
+19,12,11,Zo nu en dan regen en motregen,60%
+20,12,11,Een beetje regen,65%
+21,12,7,Wolken en zon,10%
+22,12,6,Een bui,60%
+23,12,7,Een beetje regen,58%
+24,12,6,Bewolkt,15%
+25,12,7,Aanhoudend bewolkt,25%

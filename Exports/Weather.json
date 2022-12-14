@@ -1,1 +1,86 @@
-[{"Day":"29","Month":"11","Temperature":"9","Phrase":"Bewolkt","RainPercentage":"25%"},{"Day":"30","Month":"11","Temperature":"7","Phrase":"Laaghangende bewolking en mist","RainPercentage":"25%"},{"Day":"1","Month":"12","Temperature":"6","Phrase":"Lage wolken","RainPercentage":"25%"},{"Day":"2","Month":"12","Temperature":"3","Phrase":"Bewolkt","RainPercentage":"16%"},{"Day":"3","Month":"12","Temperature":"3","Phrase":"Bewolkt","RainPercentage":"25%"},{"Day":"4","Month":"12","Temperature":"4","Phrase":"Aanhoudend bewolkt","RainPercentage":"25%"},{"Day":"5","Month":"12","Temperature":"2","Phrase":"Zon door hoge bewolking","RainPercentage":"3%"},{"Day":"6","Month":"12","Temperature":"3","Phrase":"Overwegend bewolkt","RainPercentage":"2%"},{"Day":"7","Month":"12","Temperature":"4","Phrase":"Bewolkt","RainPercentage":"25%"},{"Day":"8","Month":"12","Temperature":"3","Phrase":"Een beetje regen","RainPercentage":"56%"},{"Day":"9","Month":"12","Temperature":"1","Phrase":"Een beetje aanvriezende regen en aanvriezende motregen","RainPercentage":"57%"},{"Day":"10","Month":"12","Temperature":"2","Phrase":"Deels zonnig","RainPercentage":"25%"}]
+[
+  {
+    "Day": "14",
+    "Month": "12",
+    "Temperature": "-1",
+    "Phrase": "Overwegend bewolkt",
+    "RainPercentage": "1%"
+  },
+  {
+    "Day": "15",
+    "Month": "12",
+    "Temperature": "2",
+    "Phrase": "Overwegend zonnig",
+    "RainPercentage": "0%"
+  },
+  {
+    "Day": "16",
+    "Month": "12",
+    "Temperature": "0",
+    "Phrase": "Zonnig tot gedeeltelijk bewolkt",
+    "RainPercentage": "0%"
+  },
+  {
+    "Day": "17",
+    "Month": "12",
+    "Temperature": "0",
+    "Phrase": "Overwegend zonnig",
+    "RainPercentage": "0%"
+  },
+  {
+    "Day": "18",
+    "Month": "12",
+    "Temperature": "4",
+    "Phrase": "Een beetje sneeuw",
+    "RainPercentage": "83%"
+  },
+  {
+    "Day": "19",
+    "Month": "12",
+    "Temperature": "11",
+    "Phrase": "Zo nu en dan regen en motregen",
+    "RainPercentage": "60%"
+  },
+  {
+    "Day": "20",
+    "Month": "12",
+    "Temperature": "11",
+    "Phrase": "Een beetje regen",
+    "RainPercentage": "65%"
+  },
+  {
+    "Day": "21",
+    "Month": "12",
+    "Temperature": "7",
+    "Phrase": "Wolken en zon",
+    "RainPercentage": "10%"
+  },
+  {
+    "Day": "22",
+    "Month": "12",
+    "Temperature": "6",
+    "Phrase": "Een bui",
+    "RainPercentage": "60%"
+  },
+  {
+    "Day": "23",
+    "Month": "12",
+    "Temperature": "7",
+    "Phrase": "Een beetje regen",
+    "RainPercentage": "58%"
+  },
+  {
+    "Day": "24",
+    "Month": "12",
+    "Temperature": "6",
+    "Phrase": "Bewolkt",
+    "RainPercentage": "15%"
+  },
+  {
+    "Day": "25",
+    "Month": "12",
+    "Temperature": "7",
+    "Phrase": "Aanhoudend bewolkt",
+    "RainPercentage": "25%"
+  }
+]
