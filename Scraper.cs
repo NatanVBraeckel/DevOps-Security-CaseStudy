@@ -23,13 +23,13 @@ namespace CaseStudy
 
             driver.Navigate().GoToUrl($"https://www.youtube.com/results?search_query={searchterm.Replace(' ', '+')}&sp=CAI%253D");
 
-            WebElement accept_terms = (WebElement)wait.Until(driver => driver.FindElement(By.XPath("//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")));
-            accept_terms.Click();
+            WebElement acceptTerms = (WebElement)wait.Until(driver => driver.FindElement(By.XPath("//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")));
+            acceptTerms.Click();
 
             /*3 seconden slapen, anders krijg je errors omdat pagina nog niet herladen is na accept terms*/
             Thread.Sleep(3000);
 
-            List<YoutubeVideo> YoutubeVideosList = new List<YoutubeVideo>();
+            List<YoutubeVideo> youtubeVideosList = new List<YoutubeVideo>();
             for (int i = 1; i <= 5; i++)
             {
                 var video = wait.Until(driver => driver.FindElement(By.CssSelector($"#contents > ytd-video-renderer:nth-of-type({i})")));
@@ -51,12 +51,12 @@ namespace CaseStudy
                 ////*[@id="metadata-line"]/span[1]
                 /*Console.WriteLine($"link = {link}\ntitle = {title}\nchannel = {channel}\nviews = {views}\n");*/
 
-                YoutubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
+                youtubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
             }
 
             driver.Quit();
 
-            return YoutubeVideosList;
+            return youtubeVideosList;
         }
         public static List<YoutubeVideo> YoutubeScraper2()
         {
@@ -76,7 +76,7 @@ namespace CaseStudy
             //efkes wachten anders StaleElementException
             Thread.Sleep(1500);
 
-            List<YoutubeVideo> YoutubeVideosList = new List<YoutubeVideo>();
+            List<YoutubeVideo> youtubeVideosList = new List<YoutubeVideo>();
             //nu de eerste 5 vids yoinken
             IList<IWebElement> videosLijst = driver.FindElements(By.CssSelector("#contents ytd-video-renderer:nth-of-type(-n+5)"));
             foreach(IWebElement video in videosLijst)
@@ -91,12 +91,12 @@ namespace CaseStudy
 
                 string link = video.FindElement(By.CssSelector("ytd-thumbnail a")).GetAttribute("href");
 
-                Console.WriteLine($"Title = {title}\nChannel = {channel}\nViews = {views}\nLink = {link}");
-                YoutubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
+                //Console.WriteLine($"Title = {title}\nChannel = {channel}\nViews = {views}\nLink = {link}");
+                youtubeVideosList.Add(new YoutubeVideo(title, channel, views, link));
             }
 
             driver.Quit();
-            return YoutubeVideosList;
+            return youtubeVideosList;
         }
         public static List<Vacature> VacatureScraper()
         {

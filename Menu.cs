@@ -8,42 +8,7 @@ namespace CaseStudy
 {
     public class Menu
     {
-        public static void PrintCustomMenu(string title, List<string> main, string endline)
-        {
-            string[] allStrings = main.Concat(new string[] { title, endline }).ToArray();
-            int longestString = allStrings.Max(w => w.Length);
-
-            title = title.PadRight(longestString + 5);
-            endline = endline.PadRight(longestString + 5);
-
-            string streep = new string('-', longestString + 6);
-
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|{streep}|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($" {title}");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write($"|\n|{streep}|\n|");
-
-            for (int i = 0; i < main.Count(); i++)
-            {
-                string line = $" {i}: {main[i]}";
-                line = line.PadRight(longestString + 5);
-
-                Console.ForegroundColor = ConsoleColor.White;
-
-                Console.Write(line);
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.Write($" |\n|");
-            }
-
-            Console.Write($"{streep}|\n|");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($" {endline}");
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine($"|\n|{streep}|");
-            Console.ForegroundColor = ConsoleColor.White;
-        }
+        //oude versie
         public static void PrintMenu()
         {
             //attempt keuzemenu :)
@@ -73,9 +38,10 @@ namespace CaseStudy
             Console.WriteLine($"|\n|-----------------------|\n");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+        //oude versie
         public static string GetOption()
         {
-            List<string> strings = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen" };
+            List<string> strings = new List<string> { "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen" };
             Console.Clear();
             PrintCustomMenu("Kies een optie", strings, "q: Quit programma");
             //PrintMenu();
@@ -94,6 +60,54 @@ namespace CaseStudy
             }
 
             return option;
+        }
+        public static void PrintLogo(int leftPadding = 0, ConsoleColor color = ConsoleColor.White)
+        {
+            string padding = new string(' ', leftPadding);
+            Console.ForegroundColor = color;
+            Console.WriteLine($"{padding}  __");
+            Console.WriteLine($"{padding} / _\\ ___ _ __ __ _ _ __  _ __  _   _");
+            Console.WriteLine($"{padding} \\ \\ / __| '__/ _` | '_ \\| '_ \\| | | |");
+            Console.WriteLine($"{padding} _\\ \\ (__| | | (_| | |_) | |_) | |_| |");
+            Console.WriteLine($"{padding} \\__/\\___|_|  \\__,_| .__/| .__/ \\__, |");
+            Console.WriteLine($"{padding}                   |_|   |_|    |___/");
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        public static void PrintCustomMenu(string title, List<string> main, string endline, ConsoleColor color = ConsoleColor.DarkBlue)
+        {
+            string[] allStrings = main.Concat(new string[] { title, endline }).ToArray();
+            int longestString = allStrings.Max(w => w.Length);
+
+            title = title.PadRight(longestString + 5);
+            endline = endline.PadRight(longestString + 5);
+
+            string streep = new string('-', longestString + 6);
+
+            Console.ForegroundColor = color;
+            Console.Write($"|{streep}|\n|");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($" {title}");
+            Console.ForegroundColor = color;
+            Console.Write($"|\n|{streep}|\n|");
+
+            for (int i = 0; i < main.Count(); i++)
+            {
+                string line = $" {i}: {main[i]}";
+                line = line.PadRight(longestString + 5);
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.Write(line);
+                Console.ForegroundColor = color;
+                Console.Write($" |\n|");
+            }
+
+            Console.Write($"{streep}|\n|");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($" {endline}");
+            Console.ForegroundColor = color;
+            Console.WriteLine($"|\n|{streep}|");
+            Console.ForegroundColor = ConsoleColor.White;
         }
         public static string GetOptionNew(int amount_options, string extra_option = "", string prompt = "Optie: ")
         {
@@ -119,6 +133,14 @@ namespace CaseStudy
 
             return option;
         }
+        public static ConsoleColor RandomColor()
+        {
+            var random = new Random();
+            List<ConsoleColor> colors = new List<ConsoleColor>
+            { ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.DarkGreen, ConsoleColor.Green, ConsoleColor.DarkCyan, ConsoleColor.Cyan, ConsoleColor.Red, ConsoleColor.Magenta };
+            int index = random.Next(colors.Count);
+            return colors[index];
+        }
 
         //yoinked van https://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-with-maximum-performance
         public static string CapitalizeFirstLetter(string s)
@@ -129,5 +151,6 @@ namespace CaseStudy
                 return s.ToUpper();
             return s.Remove(1).ToUpper() + s.Substring(1);
         }
+
     }
 }

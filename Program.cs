@@ -26,12 +26,12 @@ namespace CaseStudy
 
             void Program()
             {
-                //string option = GetOption();
                 Console.Clear();
                 
-                List<string> ScrapeOpties = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen", "Scrape doorkomende bussen van een halte" };
-                Menu.PrintCustomMenu("Kies een optie", ScrapeOpties, "q: Quit programma");
-                string option = Menu.GetOptionNew(ScrapeOpties.Count, extra_option: "q");
+                List<string> scrapeOpties = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen", "Scrape doorkomende bussen van een halte" };
+                Menu.PrintLogo(leftPadding: 4, color: Menu.RandomColor());
+                Menu.PrintCustomMenu("Kies een optie", scrapeOpties, "q: Quit programma", color: Menu.RandomColor());
+                string option = Menu.GetOptionNew(scrapeOpties.Count, extra_option: "q");
 
                 switch (option)
                 {
