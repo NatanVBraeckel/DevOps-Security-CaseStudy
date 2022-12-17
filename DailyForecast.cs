@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CaseStudy
+﻿namespace CaseStudy
 {
     public class DailyForecast
     {
@@ -26,7 +20,7 @@ namespace CaseStudy
 
         public override string ToString()
         {
-            return $"Day = {Day}\nMonth = {Month}\nTemperature = {Temperature}\nPhrase = {Phrase}\nRainPercentage = {RainPercentage}";
+            return $"Day = {Day}\nMonth = {Month}\nTemperature = {Temperature}°C\nPhrase = {Phrase}\nRainPercentage = {RainPercentage}";
         }
     }
 }

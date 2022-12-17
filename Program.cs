@@ -1,19 +1,4 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.DevTools;
-using OpenQA.Selenium.Support.UI;
-using System;
-using System.Reflection.Metadata;
-using ServiceStack.Text;
-using CaseStudy;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Tracing;
-using System.Security.Cryptography.X509Certificates;
-using OpenQA.Selenium.DevTools.V105.Emulation;
-using System.IO;
-/*using JsonSerializer = System.Text.Json.JsonSerializer; NIET MEER NODIG OMDAT JSSERIALIZER OOK IN SERVICESTACK.TEXT ZIT*/
-
-namespace CaseStudy
+﻿namespace CaseStudy
 {
     class Program
     {
@@ -28,7 +13,7 @@ namespace CaseStudy
             {
                 Console.Clear();
                 
-                List<string> scrapeOpties = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen", "Scrape doorkomende bussen van een halte" };
+                List<string> scrapeOpties = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende dagen", "Scrape doorkomende bussen van een halte" };
                 Menu.PrintLogo(leftPadding: 4, color: Menu.RandomColor());
                 Menu.PrintCustomMenu("Kies een optie", scrapeOpties, "q: Quit programma", color: Menu.RandomColor());
                 string option = Menu.GetOptionNew(scrapeOpties.Count, extra_option: "q");
@@ -36,31 +21,23 @@ namespace CaseStudy
                 switch (option)
                 {
                     case "0":
-                        List<YoutubeVideo> YoutubeVideosList = Scraper.YoutubeScraper2();
-                        //Converter.ExportCSV(exportDirectory, "YoutubeVids", YoutubeVideosList);
-                        //Converter.ExportJSON(exportDirectory, "YoutubeVids", YoutubeVideosList);
-                        Menu.ConvertMenu(exportDirectory, YoutubeVideosList);
+                        List<YoutubeVideo> youtubeVideosList = Scraper.YoutubeScraper2();
+                        Menu.ConvertMenu(exportDirectory, youtubeVideosList);
                         Program();
                         break;
                     case "1":
-                        List<Vacature> VacaturesList = Scraper.VacatureScraper();
-                        //Converter.ExportCSV(exportDirectory, "Vacatures", VacaturesList);
-                        //Converter.ExportJSON(exportDirectory, "Vacatures", VacaturesList);
-                        Menu.ConvertMenu(exportDirectory, VacaturesList);
+                        List<Vacature> vacaturesList = Scraper.VacatureScraper();
+                        Menu.ConvertMenu(exportDirectory, vacaturesList);
                         Program();
                         break;
                     case "2":
-                        List<DailyForecast> DailyForecastList = Scraper.WeatherScraper();
-                        //Converter.ExportCSV(exportDirectory, "Weather", DailyForecastList);
-                        //Converter.ExportJSON(exportDirectory, "Weather", DailyForecastList);
-                        Menu.ConvertMenu(exportDirectory, DailyForecastList);
+                        List<DailyForecast> dailyForecastList = Scraper.WeatherScraper();
+                        Menu.ConvertMenu(exportDirectory, dailyForecastList);
                         Program();
                         break;
                     case "3":
-                        List<BusDoorkomst> BusDoorkomstList = Scraper.LijnScraper();
-                        //Converter.ExportCSV(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
-                        //Converter.ExportJSON(exportDirectory, "Busdoorkomsten", BusDoorkomstList);
-                        Menu.ConvertMenu(exportDirectory, BusDoorkomstList);
+                        List<BusDoorkomst> busDoorkomstList = Scraper.LijnScraper();
+                        Menu.ConvertMenu(exportDirectory, busDoorkomstList);
                         Program();
                         break;
                     case "q":
@@ -80,32 +57,6 @@ namespace CaseStudy
 
             //string option = GetOption();
 
-            /*
-            string[] testing = { "optie een", "optie twee", "optie dit is een lange" };
-            PrintCustomMenu("test voor lengte", testing, "eindzin");
-            PrintCustomMenu("een te lange startzin dit gaat fout lopen", testing, "eindzin");
-            PrintCustomMenu("test voor lengte", testing, "een te lange eindezin dit gaat ook fout lopen");
-            */
-
-            //hieronder deel van Youtube
-            /*List<YoutubeVideo> YoutubeVideosList = YoutubeScraper();
-          
-            string pathJSON = currentDirectory + @"\YoutubeVids.json";
-            string jsonString = JsonSerializer.SerializeToString(YoutubeVideosList);
-            File.WriteAllText(pathJSON, jsonString);
-            ExportCSV_original(currentDirectory, "YoutubeVids", YoutubeVideosList);*/
-
-
-            //hieronder deel van ictjobs
-            /*List<Vacature> VacaturesList = VacatureScraper();
-
-            string pathJsonVacature = currentDirectory + @"\Vacatures.json";
-            string jsonStringVacature = JsonSerializer.SerializeToString(VacaturesList);
-            File.WriteAllText(pathJsonVacature, jsonStringVacature);
-
-            string pathCsvVacature = currentDirectory + @"\Vactures.csv";
-            string csvStringVacature = CsvSerializer.SerializeToString(VacaturesList);
-            File.WriteAllText(pathCsvVacature, csvStringVacature);*/
         }
     }
 }

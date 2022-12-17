@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CaseStudy
+﻿namespace CaseStudy
 {
     public class YoutubeVideo
     {
@@ -16,7 +10,6 @@ namespace CaseStudy
             Views = views;
             Link = link;
         }
-
 
         public string Title { get; set; }
         public string Channel { get; set; }

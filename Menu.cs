@@ -1,11 +1,4 @@
-﻿using OpenQA.Selenium.DevTools.V105.Page;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CaseStudy
+﻿namespace CaseStudy
 {
     public class Menu
     {
@@ -179,8 +172,20 @@ namespace CaseStudy
                     break;
             }
         }
+        public static bool IsInputIntInRange(string input, int min, int max)
+        {
+            int i;
+            if (Int32.TryParse(input, out i))
+            {
+                if (min <= i && i <= max)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-        //yoinked van https://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-with-maximum-performance
+        //code van https://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-with-maximum-performance
         public static string CapitalizeFirstLetter(string s)
         {
             if (string.IsNullOrEmpty(s))
