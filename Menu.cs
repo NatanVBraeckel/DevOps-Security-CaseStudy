@@ -134,14 +134,6 @@
 
             return option;
         }
-        public static ConsoleColor RandomColor()
-        {
-            var random = new Random();
-            List<ConsoleColor> colors = new List<ConsoleColor>
-            { ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.DarkGreen, ConsoleColor.Green, ConsoleColor.DarkCyan, ConsoleColor.Cyan, ConsoleColor.Red, ConsoleColor.Magenta };
-            int index = random.Next(colors.Count);
-            return colors[index];
-        }
         public static void ConvertMenu<T>(string path, List<T>scrapeItems)
         {
             List<string> convertOptions = new List<string> { "View Data", "Convert to CSV", "Convert to JSON" };
@@ -190,6 +182,14 @@
                 }
             }
             return false;
+        }
+        public static ConsoleColor RandomColor()
+        {
+            var random = new Random();
+            List<ConsoleColor> colors = new List<ConsoleColor>
+            { ConsoleColor.Blue, ConsoleColor.DarkBlue, ConsoleColor.DarkGreen, ConsoleColor.Green, ConsoleColor.DarkCyan, ConsoleColor.Cyan, ConsoleColor.Red, ConsoleColor.Magenta };
+            int index = random.Next(colors.Count);
+            return colors[index];
         }
 
         //code van https://stackoverflow.com/questions/4135317/make-first-letter-of-a-string-upper-case-with-maximum-performance

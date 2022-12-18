@@ -65,7 +65,8 @@ namespace CaseStudy
             driver.Navigate().GoToUrl($"https://www.youtube.com/results?search_query={searchterm.Replace(' ', '+')}&sp=CAI%253D");
 
             //accept terms klikken
-            driver.FindElement(By.XPath("//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]")).Click();
+            string xpathAcceptTerms = "//*[@id=\"content\"]/div[2]/div[6]/div[1]/ytd-button-renderer[2]/yt-button-shape/button/yt-touch-feedback-shape/div/div[2]";
+            driver.FindElement(By.XPath(xpathAcceptTerms)).Click();
 
             //even wachten anders StaleElementException
             Thread.Sleep(1500);
@@ -99,24 +100,25 @@ namespace CaseStudy
             string searchterm = Console.ReadLine();
 
             WebDriver driver = new ChromeDriver();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            /*WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20)); oud, explicit wait*/
 
             driver.Navigate().GoToUrl("https://www.ictjob.be/");
 
 
-            WebElement searchbar = (WebElement)wait.Until(driver => driver.FindElement(By.Id("keywords-input")));
+            WebElement searchbar = (WebElement)driver.FindElement(By.Id("keywords-input"));
             searchbar.SendKeys($"{searchterm}");
             searchbar.Submit();
 
-            WebElement cookies = (WebElement)wait.Until(driver => driver.FindElement(By.CssSelector(".close-context-message")));
+            WebElement cookies = (WebElement)driver.FindElement(By.CssSelector(".close-context-message"));
             cookies.Click();
 
-            WebElement sortDateButton = (WebElement)wait.Until(driver => driver.FindElement(By.Id("sort-by-date")));
+            WebElement sortDateButton = (WebElement)driver.FindElement(By.Id("sort-by-date"));
             sortDateButton.Click();
 
-            Thread.Sleep(15000);
+            Thread.Sleep(10000);
 
-            IList<IWebElement> vacatures = wait.Until(driver => driver.FindElements(By.CssSelector($"li.search-item.clearfix")));
+            IList<IWebElement> vacatures = driver.FindElements(By.CssSelector($"li.search-item.clearfix"));
             List<IWebElement> fiveVacatures = vacatures.ToList().GetRange(0, 5);
 
             List<Vacature> vacaturesList = new List<Vacature>();
@@ -150,14 +152,15 @@ namespace CaseStudy
             string chosenLocation = Console.ReadLine();
 
             WebDriver driver = new ChromeDriver();
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            /*WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20)); oud, explicit wait*/
 
             driver.Navigate().GoToUrl("https://www.accuweather.com/");
 
-            WebElement consent = (WebElement)wait.Until(driver => driver.FindElement(By.CssSelector(".fc-button.fc-cta-consent.fc-primary-button")));
+            WebElement consent = (WebElement)driver.FindElement(By.CssSelector(".fc-button.fc-cta-consent.fc-primary-button"));
             consent.Click();
 
-            WebElement searchbar = (WebElement)wait.Until(driver => driver.FindElement(By.ClassName("search-input")));
+            WebElement searchbar = (WebElement)driver.FindElement(By.ClassName("search-input"));
             searchbar.SendKeys(chosenLocation);
             searchbar.Submit();
             //hierna ga je oftewel direct naar de juiste pagina (bv Averbode), of je gaat naar pagina met verschillende opties (bv Geel)
@@ -176,7 +179,7 @@ namespace CaseStudy
                 catch (OpenQA.Selenium.NoSuchElementException) //als er geen dailyknop is:
                 {
                     //haal alle opties uit de lijst
-                    IList<IWebElement> locations = wait.Until(driver => driver.FindElements(By.CssSelector(".locations-list a")));
+                    IList<IWebElement> locations = driver.FindElements(By.CssSelector(".locations-list a"));
                     List<string> locationsStrings = new List<string> { };
                     foreach (IWebElement location in locations)
                     {
@@ -203,7 +206,7 @@ namespace CaseStudy
                     catch (OpenQA.Selenium.NoSuchElementException)
                     {
                         driver.Navigate().Refresh();
-                        IList<IWebElement> locationsReload = wait.Until(driver => driver.FindElements(By.CssSelector(".locations-list a")));
+                        IList<IWebElement> locationsReload = driver.FindElements(By.CssSelector(".locations-list a"));
                         locationsReload[intLocationChoice].Click();
                     }
                 }
@@ -215,28 +218,26 @@ namespace CaseStudy
             //normaal gezien zijn we nu op de juiste pagina
 
             //WebElement daily = (WebElement)wait.Until(driver => driver.FindElement(By.CssSelector("a[data-qa=\'daily\']")));
-            daily = (WebElement)wait.Until(driver => driver.FindElement(By.CssSelector("a[data-qa=\'daily\']")));
+            daily = (WebElement)driver.FindElement(By.CssSelector("a[data-qa=\'daily\']"));
             daily.Click();
 
             List<DailyForecast> dailyForecasts = new List<DailyForecast>();
 
-            //ingewikkeld, ambetant door selector
             Console.Write("Hoeveel dagen wil je scrapen (1 - 12): ");
             string aantalDagen = Console.ReadLine();
-
             while (Menu.IsInputIntInRange(aantalDagen, 1, 12) == false)
             {
                 Console.Write("Foute input (1 - 12): ");
                 aantalDagen = Console.ReadLine();
             }
 
-            //ambetante css zorgt ervoor dat we de selector moeten aanpassen als user meer dan 4 dagen wilt scrapen
+            //irritante html zorgt ervoor dat we de selector moeten aanpassen als user meer dan 4 dagen wilt scrapen
             if (int.Parse(aantalDagen) > 4)
             {
-                aantalDagen = $"{int.Parse(aantalDagen) + 2}";
+                aantalDagen = $"{int.Parse(aantalDagen) + 3}";
             }
 
-            IList<IWebElement> dailyWrappers = wait.Until(driver => driver.FindElements(By.CssSelector($"div.daily-wrapper:nth-of-type(-n+{aantalDagen})")));
+            IList<IWebElement> dailyWrappers = driver.FindElements(By.CssSelector($"div.daily-wrapper:nth-of-type(-n+{aantalDagen})"));
             foreach (IWebElement dailyWrapper in dailyWrappers)
             {
                 //je kan de hele date ophalen, maar data opsplitsen kan misschien ergens handig zijn
