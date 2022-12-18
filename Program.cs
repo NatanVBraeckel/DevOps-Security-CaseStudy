@@ -6,7 +6,7 @@
         static void Main(string[] args)
         {
 
-            /*dit haalt de huidige dir op, zonder de bin en debugmappen. hier kan ik dan de csv en json bestanden naar zetten*/
+            //dit haalt de huidige dir op, zonder de bin en debugmappen. Hier kan ik dan de csv en json files in een map zetten
             string exportDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName + @"\Exports\";
 
             void Program()
@@ -16,7 +16,7 @@
                 List<string> scrapeOpties = new List<string>{ "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende dagen", "Scrape doorkomende bussen van een halte" };
                 Menu.PrintLogo(leftPadding: 4, color: Menu.RandomColor());
                 Menu.PrintCustomMenu("Kies een optie", scrapeOpties, "q: Quit programma", color: Menu.RandomColor());
-                string option = Menu.GetOptionNew(scrapeOpties.Count, extra_option: "q");
+                string option = Menu.GetOption(scrapeOpties.Count, extra_option: "q");
 
                 switch (option)
                 {
@@ -47,15 +47,7 @@
                 }
             }
 
-            //Scraper.LijnScraper();
-
-            //Scraper.VacatureScraper();
-
-            //Scraper.YoutubeScraper2();
-
             Program();
-
-            //string option = GetOption();
 
         }
     }

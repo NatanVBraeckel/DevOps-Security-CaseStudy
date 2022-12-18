@@ -33,7 +33,7 @@
             Console.ForegroundColor = ConsoleColor.Gray;
         }
         //oude versie
-        public static string GetOption()
+        public static string GetOptionOld()
         {
             List<string> strings = new List<string> { "Scrape 5 YT videos", "Scrape 5 ictjobs", "Scrape weer van de komende 12 dagen" };
             Console.Clear();
@@ -55,16 +55,23 @@
 
             return option;
         }
+
+
         public static void PrintLogo(int leftPadding = 0, ConsoleColor color = ConsoleColor.White)
-        {
+        {    
             string padding = new string(' ', leftPadding);
             Console.ForegroundColor = color;
-            Console.WriteLine($"{padding}  __");
-            Console.WriteLine($"{padding} / _\\ ___ _ __ __ _ _ __  _ __  _   _");
-            Console.WriteLine($"{padding} \\ \\ / __| '__/ _` | '_ \\| '_ \\| | | |");
-            Console.WriteLine($"{padding} _\\ \\ (__| | | (_| | |_) | |_) | |_| |");
-            Console.WriteLine($"{padding} \\__/\\___|_|  \\__,_| .__/| .__/ \\__, |");
-            Console.WriteLine($"{padding}                   |_|   |_|    |___/");
+            Console.WriteLine($"{padding}                 _                   ");
+            Console.WriteLine($"{padding}     _ __   __ _| |_ __ _ _ __       ");
+            Console.WriteLine($"{padding}    | '_ \\ / _` | __/ _` | '_ \\      ");
+            Console.WriteLine($"{padding}    | | | | (_| | || (_| | | | |     ");
+            Console.WriteLine($"{padding}    |_| |_|\\__,_|\\__\\__,_|_| |_|     ");
+            Console.WriteLine($"{padding}  ___  ___ _ __ __ _ _ __   ___ _ __ ");
+            Console.WriteLine($"{padding} / __|/ __| '__/ _` | '_ \\ / _ \\ '__|");
+            Console.WriteLine($"{padding} \\__ \\ (__| | | (_| | |_) |  __/ |   ");
+            Console.WriteLine($"{padding} |___/\\___|_|  \\__,_| .__/ \\___|_|   ");
+            Console.WriteLine($"{padding}                    |_|              ");
+
             Console.ForegroundColor = ConsoleColor.White;
         }
         public static void PrintCustomMenu(string title, List<string> main, string endline, ConsoleColor color = ConsoleColor.DarkBlue)
@@ -103,7 +110,7 @@
             Console.WriteLine($"|\n|{streep}|");
             Console.ForegroundColor = ConsoleColor.White;
         }
-        public static string GetOptionNew(int amount_options, string extra_option = "", string prompt = "Optie: ")
+        public static string GetOption(int amount_options, string extra_option = "", string prompt = "Optie: ")
         {
             List<string> options = new List<string>();
             for (int i = 0; i < amount_options; i++)
@@ -141,7 +148,7 @@
 
             Console.Clear();
             PrintCustomMenu("Data retrieved", convertOptions, "q: Quit", color: ConsoleColor.Cyan);
-            string option = GetOptionNew(convertOptions.Count, extra_option: "q");
+            string option = GetOption(convertOptions.Count, extra_option: "q");
 
             switch (option)
             {
@@ -155,15 +162,15 @@
                     ConvertMenu(path, scrapeItems);
                     break;
                 case "1":
-                    Console.Write("Write a name for the file: ");
+                    Console.Write("Write a name for the CSV file: ");
                     string filenameCSV = Console.ReadLine();
                     Converter.ExportCSV(path, filenameCSV, scrapeItems);
                     ConvertMenu(path, scrapeItems);
                     break;
                 case "2":
-                    Console.Write("Write a name for the file: ");
+                    Console.Write("Write a name for the JSON file: ");
                     string filenameJSON = Console.ReadLine();
-                    Converter.ExportCSV(path, filenameJSON, scrapeItems);
+                    Converter.ExportJSON(path, filenameJSON, scrapeItems);
                     ConvertMenu(path, scrapeItems);
                     break;
                 case "q":

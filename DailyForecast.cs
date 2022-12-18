@@ -16,7 +16,6 @@
         public string Temperature { get; set; }
         public string Phrase { get; set; }
         public string RainPercentage { get; set; }
-        //public string Link { get; set; }
 
         public override string ToString()
         {

@@ -6,6 +6,7 @@ namespace CaseStudy
 {
     public class Scraper
     {
+        //oude versie
         public static List<YoutubeVideo> YoutubeScraper()
         {
             Console.Write("enter searchterm: ");
@@ -159,7 +160,7 @@ namespace CaseStudy
             WebElement searchbar = (WebElement)wait.Until(driver => driver.FindElement(By.ClassName("search-input")));
             searchbar.SendKeys(chosenLocation);
             searchbar.Submit();
-            //hierna ga je oftewel direct naar de juiste pagina (bv Averbode), of je gaat naar pagina met verschillende opties
+            //hierna ga je oftewel direct naar de juiste pagina (bv Averbode), of je gaat naar pagina met verschillende opties (bv Geel)
 
             //moet dus eerst checken of we al direct op de juiste pagina zitten of niet?
             //=> als de dailyknop er is weten we dat we juist zitten
@@ -169,11 +170,12 @@ namespace CaseStudy
                 {
                     daily = (WebElement)driver.FindElement(By.CssSelector("a[data-qa=\'daily\']"));
                     daily.Click();
-                    //soms krijg je nog stomme ad, door refresh gaat die weg
+                    //soms krijg je nog advertentie eens je op de pagina terechtkomt, door refresh gaat die weg
                     driver.Navigate().Refresh();
                 }
-                catch (OpenQA.Selenium.NoSuchElementException)
+                catch (OpenQA.Selenium.NoSuchElementException) //als er geen dailyknop is:
                 {
+                    //haal alle opties uit de lijst
                     IList<IWebElement> locations = wait.Until(driver => driver.FindElements(By.CssSelector(".locations-list a")));
                     List<string> locationsStrings = new List<string> { };
                     foreach (IWebElement location in locations)
@@ -181,10 +183,12 @@ namespace CaseStudy
                         locationsStrings.Add(location.Text);
                     }
 
+                    //print alle opties
                     Console.Clear();
                     Menu.PrintCustomMenu($"{locations.Count} options found", locationsStrings, "Choose a location");
+                    
 
-                    string locationChoice = Menu.GetOptionNew(locationsStrings.Count);
+                    string locationChoice = Menu.GetOption(locationsStrings.Count);
                     int intLocationChoice = int.Parse(locationChoice);
                     locations[intLocationChoice].Click();
 
@@ -300,7 +304,7 @@ namespace CaseStudy
             //alle opties zijn nu opgehaald, nu nog de optie van de gebruiker krijgen
             Console.Clear();
             Menu.PrintCustomMenu($"Alle lijnen met nummer {lijnNummer}", lijstRoutes, "Kies een route");
-            string routeOption = Menu.GetOptionNew(lijstRoutes.Count);
+            string routeOption = Menu.GetOption(lijstRoutes.Count);
 
             //op de optie die de gebruiker heeft gekozen klikken
             int intRouteOption = Int32.Parse(routeOption);
@@ -328,7 +332,7 @@ namespace CaseStudy
             foreach(IWebElement stad in steden)
             {
                 string naamStad = Menu.CapitalizeFirstLetter(stad.FindElement(By.CssSelector("h4")).Text.ToLower());
-                Console.WriteLine($"\nnaam van de stad: {naamStad}");
+                //Console.WriteLine($"\nnaam van de stad: {naamStad}");
 
                 //nu elke halte van deze stad pakken
                 IList<IWebElement> haltesStad = stad.FindElements(By.CssSelector("ul[data-testid=\'stop-list-with-small-action\'] > li"));
@@ -336,7 +340,7 @@ namespace CaseStudy
                 {
                     //span die direct kind is van een div is onze titel van de halte
                     string naamHalte = halte.FindElement(By.CssSelector("div > span")).Text;
-                    Console.WriteLine($"halte: {naamHalte}");
+                    //Console.WriteLine($"halte: {naamHalte}");
 
                     haltesLijst.Add($"{naamStad} - {naamHalte}");
                 }
@@ -344,7 +348,7 @@ namespace CaseStudy
 
             Console.Clear();
             Menu.PrintCustomMenu("Alle haltes op deze route", haltesLijst, "Kies een halte");
-            string halteOption = Menu.GetOptionNew(haltesLijst.Count);
+            string halteOption = Menu.GetOption(haltesLijst.Count);
             int intHalteOption = int.Parse(halteOption);
 
             IList<IWebElement> alle_haltes = driver.FindElements(By.CssSelector("ul[data-testid=\'stop-list-with-small-action\'] > li"));
@@ -373,7 +377,7 @@ namespace CaseStudy
             //alle datums tonen + optie om zelf een datum te schrijven
             Console.Clear();
             Menu.PrintCustomMenu("Kies een datum", datums, "s: Schrijf zelf een datum (format: dd-mm-yyyy)");
-            string dateOptionPicked = Menu.GetOptionNew(datums.Count, extra_option: "s");
+            string dateOptionPicked = Menu.GetOption(datums.Count, extra_option: "s");
 
             //kijken welke optie, zelf 1 laten schrijven als gekozen
             string datePicked;
@@ -398,7 +402,7 @@ namespace CaseStudy
             //alle uren tonen + optie om zelf een uur te schrijven
             Console.Clear();
             Menu.PrintCustomMenu("Kies een uur", uren, "s: Schrijf zelf een uur (format: hh:mm)");
-            string uurOptionPicked = Menu.GetOptionNew(datums.Count, extra_option: "s");
+            string uurOptionPicked = Menu.GetOption(datums.Count, extra_option: "s");
 
             string uur_picked;
             if (uurOptionPicked == "s")
@@ -447,10 +451,7 @@ namespace CaseStudy
                 //Console.WriteLine($"busnr: {busnummer}\nroute_naam = {route_naam}\nhaltenaam= {halte_naam}\ndatum={date_picked}\ntijdstip = {tijdstip}\ninfolink = {meer_info}");
                 busDoorkomsten.Add(new BusDoorkomst(busnummer, routeNaam, halteNaam, datePicked, tijdstip, meerInfoLink));
                 
-            }
-
-            Console.ReadLine();
-            
+            }           
 
             driver.Quit();
             return busDoorkomsten;
