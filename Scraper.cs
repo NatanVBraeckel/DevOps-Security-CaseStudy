@@ -116,13 +116,12 @@ namespace CaseStudy
             WebElement sortDateButton = (WebElement)driver.FindElement(By.Id("sort-by-date"));
             sortDateButton.Click();
 
-            Thread.Sleep(10000);
+            Thread.Sleep(12000);
 
             IList<IWebElement> vacatures = driver.FindElements(By.CssSelector($"li.search-item.clearfix"));
             List<IWebElement> fiveVacatures = vacatures.ToList().GetRange(0, 5);
 
             List<Vacature> vacaturesList = new List<Vacature>();
-
             foreach (IWebElement vacature in fiveVacatures)
             {
                 string title = vacature.FindElement(By.CssSelector("h2.job-title")).Text;
@@ -153,7 +152,6 @@ namespace CaseStudy
 
             WebDriver driver = new ChromeDriver();
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
-            /*WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20)); oud, explicit wait*/
 
             driver.Navigate().GoToUrl("https://www.accuweather.com/");
 
@@ -190,7 +188,6 @@ namespace CaseStudy
                     Console.Clear();
                     Menu.PrintCustomMenu($"{locations.Count} options found", locationsStrings, "Choose a location");
                     
-
                     string locationChoice = Menu.GetOption(locationsStrings.Count);
                     int intLocationChoice = int.Parse(locationChoice);
                     locations[intLocationChoice].Click();
@@ -198,7 +195,7 @@ namespace CaseStudy
                     //soms komt er een advertentie na het klikken van de optie
                     //gewoon refreshen van de pagina voldoet niet, want je blijft gewoon op de pagina
                     //dus na het klikken => check of we op juiste pagina zitten => zo niet doe een refresh en klik opnieuw
-                    //na het opnieuw klikken krijg je geen advertentie meer, maar je mag enkel opnieuw klikken als je nog op dezelfde pagina bent natuurlijk
+                    //na het opnieuw klikken krijg je geen advertentie mee
                     try
                     {
                         daily = (WebElement)driver.FindElement(By.CssSelector("a[data-qa=\'daily\']"));
@@ -212,12 +209,6 @@ namespace CaseStudy
                 }
             }
 
-            //soms komt er een advertentie... maar door refresh gaat die weg
-            //stel we komen van iets dat geen verschillende keuzes had, staan we wel al op juiste pagina voordat we ad krijgen, door refresh gaat die dan weg
-            //driver.Navigate().Refresh();
-            //normaal gezien zijn we nu op de juiste pagina
-
-            //WebElement daily = (WebElement)wait.Until(driver => driver.FindElement(By.CssSelector("a[data-qa=\'daily\']")));
             daily = (WebElement)driver.FindElement(By.CssSelector("a[data-qa=\'daily\']"));
             daily.Click();
 
@@ -266,11 +257,9 @@ namespace CaseStudy
 
             driver.Navigate().GoToUrl("https://www.delijn.be/");
 
-            /*WebElement consent = (WebElement)driver.FindElement(By.CssSelector("#onetrust-accept-btn-handler"));
-            consent.Click();*/
             driver.FindElement(By.CssSelector("#onetrust-accept-btn-handler")).Click();
 
-            //soms komt er een message als er een staking is
+            //soms komt er een message b.v. als er een staking is
             try
             {
                 WebElement popup = (WebElement)driver.FindElement(By.CssSelector("button[data-testid=\'snackbar-close-button\']"));
@@ -288,7 +277,6 @@ namespace CaseStudy
 
             //nu zitten we op de pagina met alle resultaten van de zoekopdracht naar lijnnummer,
             //pak alle routes en laat de user kiezen
-
             List<string> lijstRoutes = new List<string>();
 
             string routesListSelector = "ul[data-testid =\'search-results-list\'] > li:not([data-testid*=\'null\'])";
@@ -324,11 +312,9 @@ namespace CaseStudy
             //even wachten tot alle haltes zijn ingeladen voor je ze allemaal ophaald
             Thread.Sleep(1500);
 
-            //nu alle haltes ophalen
-
             List<string> haltesLijst = new List<string>{};
             //per city haltes ophalen
-            //eerst lijst van alle lijsten :p
+            //eerst lijst van alle steden
             IList<IWebElement> steden = driver.FindElements(By.CssSelector("div[data-testid=\'grouped-stops-by-town\'] > ul > li"));
             foreach(IWebElement stad in steden)
             {

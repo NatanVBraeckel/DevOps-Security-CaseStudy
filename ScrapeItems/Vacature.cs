@@ -2,7 +2,6 @@
 {
     public class Vacature
     {
-
         public Vacature(string titel, string bedrijf, string locatie, string keywords, string link)
         {
             Titel = titel;

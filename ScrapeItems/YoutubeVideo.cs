@@ -2,7 +2,6 @@
 {
     public class YoutubeVideo
     {
-
         public YoutubeVideo(string title, string channel, string views, string link)
         {
             Title = title;

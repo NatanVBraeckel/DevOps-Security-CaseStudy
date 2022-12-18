@@ -1,0 +1,23 @@
+[
+  {
+    "Day": "18",
+    "Month": "12",
+    "Temperature": "0",
+    "Phrase": "Toenemende bewolking",
+    "RainPercentage": "25%"
+  },
+  {
+    "Day": "19",
+    "Month": "12",
+    "Temperature": "10",
+    "Phrase": "Minder koud",
+    "RainPercentage": "59%"
+  },
+  {
+    "Day": "20",
+    "Month": "12",
+    "Temperature": "11",
+    "Phrase": "Een beetje regen",
+    "RainPercentage": "82%"
+  }
+]
